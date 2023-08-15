@@ -1,28 +1,21 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
+	"github.com/ArtyomWS/GoWebCourse/views"
 	"github.com/go-chi/chi/v5"
 )
 
 func executeTemplate(w http.ResponseWriter, filepath string) {
-	w.Header().Set("Content Type", "text/html")
-	tpl, err := template.ParseFiles(filepath)
+	t, err := views.Parse(filepath)
 	if err != nil {
-		log.Printf("parsing template: %v", err)
-		http.Error(w, "There was an error parsing template", http.StatusInternalServerError)
-		return
+		log.Printf("parsing template %w", err)
+		http.Error(w, "There is an error parsing template", http.StatusInternalServerError)
 	}
-	err = tpl.Execute(w, nil)
-	if err != nil {
-		log.Printf("execute template: %v", err)
-		http.Error(w, "There is an error executing template", http.StatusInternalServerError)
-		return
-	}
+	t.Execute(w, nil)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
