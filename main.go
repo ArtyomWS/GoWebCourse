@@ -40,10 +40,16 @@ func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, "Page Not Found", http.StatusNotFound)
 }
 
+func faqHandler(w http.ResponseWriter, r *http.Request) {
+	tplPath := filepath.Join("templates", "faq.gohtml")
+	executeTemplate(w, tplPath)
+}
+
 func main() {
 	r := chi.NewRouter()
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
+	r.Get("/faq", faqHandler)
 	r.NotFound(notFoundHandler)
 	http.ListenAndServe(":3000", r)
 }
