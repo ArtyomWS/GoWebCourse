@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/ArtyomWS/GoWebCourse/controllers"
@@ -17,7 +16,7 @@ func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := chi.NewRouter()
-	fmt.Printf("temp: %v", templates.FS)
+
 	tpl := views.Must(views.ParseFS(templates.FS, "home.gohtml"))
 	r.Get("/", controllers.StaticHandler(tpl))
 
@@ -25,7 +24,7 @@ func main() {
 	r.Get("/contact", controllers.StaticHandler(tpl))
 
 	tpl = views.Must(views.ParseFS(templates.FS, "faq.gohtml"))
-	r.Get("/faq", controllers.StaticHandler(tpl))
+	r.Get("/faq", controllers.Faq(tpl))
 
 	r.NotFound(notFoundHandler)
 	http.ListenAndServe(":3000", r)
