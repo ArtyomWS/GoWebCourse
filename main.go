@@ -26,8 +26,9 @@ func main() {
 	tpl = views.Must(views.ParseFS(templates.FS, "faq.gohtml", "tailwind.gohtml"))
 	r.Get("/faq", controllers.Faq(tpl))
 
-	tpl = views.Must(views.ParseFS(templates.FS, "signup.gohtml", "tailwind.gohtml"))
-	r.Get("/signup", controllers.Faq(tpl))
+	usersC := controllers.User{}
+	usersC.Templates.New = views.Must(views.ParseFS(templates.FS, "signup.gohtml", "tailwind.gohtml"))
+	r.Get("/signup", usersC.New)
 
 	r.NotFound(notFoundHandler)
 	http.ListenAndServe(":3000", r)
