@@ -4,10 +4,11 @@
         <h1 class="pt-4 pb-8 text-center text-3xl font-bold text-gray-900">
             Sign Up
         </h1>
-        <from action="/users" method="post">
+        <form action="/signup" method="Post">
             <div class="py-2">
                 <label for="email" class="text-sm font=-semibold text-gray-800">Email Address:</label>
-                <input name="email" id="email" type="email" placeholder="Email Address"
+                <input name="email" id="email" type="email" 
+                placeholder="Email Address" value="{{ .Email }}" {{if not .Email}}autofocus{{end}}
                 required autocomplete="email" class="w-full px-3 py-2 border border-gray-300 
                 placeholder-gray-500 text-gray-800 rounded" />
             </div>
@@ -15,7 +16,8 @@
                 <label for="password" class="text-sm font=-semibold text-gray-800">Password:</label>
                 <input name="password" id="password" type="password" placeholder="Password" 
                 required class="w-full px-3 py-2 border border-gray-300 
-                placeholder-gray-500 text-gray-800 rounded" />
+                placeholder-gray-500 text-gray-800 rounded" 
+                {{if .Email}}autofocus{{end}}/>
             </div>
             <div class="py-4">
                 <button type="submit" class="w-full px-2 py-4 bg-indigo-600 hover:bg-indigo-700 text-white
@@ -33,7 +35,7 @@
                     </a>
                 </p>
             </div>
-        </from>
+        </form>
     </div>
 </div>
 {{ template "footer" }}

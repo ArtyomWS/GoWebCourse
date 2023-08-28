@@ -1,17 +1,29 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
-
-	"github.com/ArtyomWS/GoWebCourse/views"
 )
 
 type User struct {
 	Templates struct {
-		New views.Template
+		New Template
 	}
 }
 
 func (u User) New(w http.ResponseWriter, r *http.Request) {
-	u.Templates.New.Execute(w, nil)
+	var data struct {
+		Email string
+	}
+	data.Email = r.FormValue("email")
+	u.Templates.New.Execute(w, data)
+}
+
+func (u User) Create(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	fmt.Fprint(w, "Email: ", r.PostForm.Get("email"), "---", r.PostForm.Get("password"))
 }
